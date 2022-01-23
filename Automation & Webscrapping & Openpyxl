@@ -1,0 +1,41 @@
+#This script was used to identify if business sites were active of not. If the webpage ran into an error, then the business at that location was not active  
+#The amount of stores I had to check were close to 2,600
+
+#start
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+import openpyxl
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import Font
+from selenium.common.exceptions import NoSuchElementException
+
+excel_file = ("SupermanProject.xlsx")
+wb = openpyxl.load_workbook(excel_file, data_only = True)
+ws = wb["MP Stores not LIVE"]
+storefronts = [ws.cell(row=i, column=1).value for i in range (2,600)]
+driver = webdriver.Chrome("chromedriver.exe")
+i = 1
+for store in storefronts:
+    driver.get(str(ws.cell(row=i, column=3).value))
+    time.sleep(6)
+    try:
+        search = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/main/div[3]/div/div[2]/div[2]/div/div")
+        if search.text == "Too far to deliver":
+            ws.cell(row=i, column=4).value = "Yes"
+            wb.save(excel_file)
+            i += 1
+        else:
+            i += 1
+            continue
+    except NoSuchElementException:
+        ws.cell(row=i, column=4).value = "No"
+        wb.save(excel_file)
+        i += 1
+        continue
+#end
+#Line 11. Excel file that was being used
+#Line 20. I had columns organized into store brands, locations, and their direct url. Line 20 runs the url
+#Line 24/25. If a certain text/string was present on the webpage, script would add "yes" to the excel column for "Live?"
+#Line 31. If the webpage was not found, then "no" was added
+#This was the core step was looped for the close to 2,600 list of links I had  
