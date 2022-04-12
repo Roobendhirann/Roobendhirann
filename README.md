@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @Roobendhirann
 - 👀 I’m interested in Python, automation, & Excel
-- 🌱 I’m currently learning more Python and will learn SQL soon
+- 🌱 I’m currently learning more Python and JavaScript
 - 💞️ I’m looking to collaborate on Python projects
 - 📫 How to reach me roobendhiran8@gmail.com
 
